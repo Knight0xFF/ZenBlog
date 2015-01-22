@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en"><head>
+    <title>New post</title>
+	<meta name="description" content="demo of simple Flask Blog ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+	<link href="/recent_feed" rel="alternate" title="Recent Changes" type="application/atom+xml">
+	<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="static/css/mdmagick.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="static/img/favicon.png"><link href="static/css/main.css" rel="stylesheet">
+	<link href="static/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/gh-fork-ribbon.css" />
+	<script src="static/bower_components/platform/platform.js"></script>
+	<script src="static/bower_components/polymer/polymer.js"></script>
+</head><body>
+		<div id="wrapper"><div class="navbar navbar-default navbar-fixed-top">
+	<div class="navbar-header">
+		<ul class="nav navbar-nav">
+			<li><a href="/" class="navbar-brand">Home</a></li>
+		
+			<li><a href="/logout">Logout</a></li>
+		
+		</ul>
+
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+	</div>
+	<div class="navbar-collapse collapse" id="navbar-main">
+		<ul class="nav navbar-nav">
+			<li><a href="/recent_feed" class="icon-rss"></a></li>
+		
+			<li><a href="/users">Users</a></li>
+			<li><a href="/posts_list">Posts</a></li>
+			<li><a href="/newpost">New post</a></li>
+			<li><a href="/settings">Settings</a></li>
+		
+		</ul>
+		<form class="navbar-form navbar-right search-form" method="post" action="/search">
+            <input type="text" name="query" class="form-control col-lg-8" placeholder="Search">
+			<input name="_csrf_token" type="hidden" value="TQ57OK">
+		</form>
+	</div>
+</div><div class="container">
+		
+		
+		
+		
+	
+
+	<div class="post clearfix">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="page-header">
+					<h1>New post</h1>
+				</div>
+				<div class="content"><form id="post-form" role="form" method="post" action="/newpost">
+						<div class="form-group "><input type="text" class="form-control" name="post_title" id="post-title" placeholder="Post Title" value="" required>
+					    </div>
+						<div class="form-group">
+						    <textarea id="post-short" name="post_excerpt" class="form-control" rows="3" placeholder="Short Text"></textarea>
+					    </div>
+						<div class="form-group "><textarea id="post-full" name="post_content" class="form-control" rows="6" placeholder="Full Text" required></textarea>
+					    </div>
+						<div class="form-group">
+						    <label for="post-tags">Tags</label>
+						    <input type="text" name="post_tags" class="form-control" id="post-tags" placeholder="Comma separated" value="">
+					    </div>
+                        <div class="form-group ">
+                            <label for="post-tags">选择分类目录</label>
+                            <select name="post_category_name" class="form-control">
+                                {% for c in categorys %}
+                              <option>{{ c.category_name }}</option>
+                                {% endfor %}
+                            </select>
+					    </div>
+						<div class="form-group">
+							<input type="hidden" name="post-preview" id="preview">
+							<input name="_csrf_token" type="hidden" value="TQ57OK">
+						    <input id="post-submit" type="submit" class="btn btn-primary" value="Submit">
+							<input id="post-preview" type="submit" class="btn" value="Preview">
+					    </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+			</div>
+		</div><footer>
+	<div class="container">
+		<p><a data-target="_blank" href="https://github.com/dmaslov/flask-blog">Source code</a> is licensed under the <a data-target="_blank" href="http://choosealicense.com/licenses/mit">MIT</a> license.</p>
+	</div>
+        <div class="github-fork-ribbon-wrapper right-bottom">
+            <div class="github-fork-ribbon">
+                <a data-target="_blank" href="https://github.com/dmaslov/flask-blog">Fork me on GitHub</a>
+            </div>
+        </div>
+</footer>
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script src="static/js/bootstrap.min.js"></script>
+	<script src="static/js/a-tools.js"></script>
+	<script src="static/js/showdown.js"></script>
+	<script src="static/js/mdmagick.js"></script>
+	<script src="static/js/main.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-45932292-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+	</body>
+</html>

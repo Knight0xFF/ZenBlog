@@ -1,0 +1,54 @@
+
+<div class="module">
+          <div class="input-group">
+              <input type="text" name=""  id="" placeholder="搜索" class="form-control">
+              <div class="input-group-btn">
+                  <button class="btn btn-primary btn-info">搜索</button>
+              </div>
+          </div>
+        </div>
+
+        <div class="module">
+          <div class="panel panel-success">
+           <div class="panel-heading">
+              <h3 class="panel-title">分类目录</h3>
+           </div>
+            <ul class="list-group">
+                {% for c in categorys %}
+                     <a href="/category/{{ c.category_name }}" class="list-group-item"><span class="badge">{{ c.category_post_count }}</span>{{ c.category_name }}</a>
+                {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <div class="module">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">推荐文章</h3>
+            </div>
+            <ul class="list-group" >
+                {% for p in hot_posts %}
+              <a href="/article/{{ p.id }}" class="list-group-item"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.post_title }}</div></a>
+                {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <div class="module">
+          <div class="panel panel-warning">
+            <div class="panel-heading">所谓标签</div>
+            <div class="panel-body tags">
+              <a href="/tag/{{ tags[0].tag_name }}" class="label label-info">{{ tags[0].tag_name }}</a>
+              <a href="/tag/{{ tags[1].tag_name }}" class="label label-success">{{ tags[1].tag_name }}</a>
+              <a href="/tag/{{ tags[2].tag_name }}" class="label label-warning">{{ tags[2].tag_name }}e</a>
+              <a href="/tag/{{ tags[3].tag_name }}" class="label label-danger">{{ tags[3].tag_name }}</a>
+              <a href="/tag/{{ tags[4].tag_name }}" class="label label-default">{{ tags[4].tag_name }}</a>
+              <a href="/tag/{{ tags[5].tag_name }}" class="label label-primary">{{ tags[5].tag_name }}</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="module">
+
+        </div>
+
