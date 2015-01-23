@@ -17,6 +17,15 @@ class PostQuery(BaseQuery):
     def get_category_name(self):
         return Category.query.filter_by(id=self.category_id).first()
 
+    def search(self, keywords):
+        criteria = []
+        keyword = '%' + keywords + '%'
+        criteria.append(db.or_(Post.post_title.ilike(keyword), Post.post_content.ilike(keyword)))
+
+        res = reduce(db.and_, criteria)
+
+        return self.filter(res).distinct()
+
 
 class Post(db.Model):
     __tablename__ = "post"

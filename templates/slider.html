@@ -1,11 +1,14 @@
-
-<div class="module">
+<div class="module" xmlns="http://www.w3.org/1999/html">
+    <form id="searchform" action="/search" method="get">
           <div class="input-group">
-              <input type="text" name=""  id="" placeholder="搜索" class="form-control">
+
+              <input type="text" name="keywords"  id="" placeholder="搜索" class="form-control">
               <div class="input-group-btn">
-                  <button class="btn btn-primary btn-info">搜索</button>
+                  <button class="btn btn-primary btn-info" type="submit">搜索</button>
               </div>
+
           </div>
+        </form>
         </div>
 
         <div class="module">
@@ -35,20 +38,28 @@
         </div>
 
         <div class="module">
-          <div class="panel panel-warning">
-            <div class="panel-heading">所谓标签</div>
+          <div class="panel panel-danger">
+            <div class="panel-heading">随机标签</div>
             <div class="panel-body tags">
-              <a href="/tag/{{ tags[0].tag_name }}" class="label label-info">{{ tags[0].tag_name }}</a>
-              <a href="/tag/{{ tags[1].tag_name }}" class="label label-success">{{ tags[1].tag_name }}</a>
-              <a href="/tag/{{ tags[2].tag_name }}" class="label label-warning">{{ tags[2].tag_name }}e</a>
-              <a href="/tag/{{ tags[3].tag_name }}" class="label label-danger">{{ tags[3].tag_name }}</a>
-              <a href="/tag/{{ tags[4].tag_name }}" class="label label-default">{{ tags[4].tag_name }}</a>
-              <a href="/tag/{{ tags[5].tag_name }}" class="label label-primary">{{ tags[5].tag_name }}</a>
+            <div class="tag-cloud">
+                {% for t in tags %}
+                <a rel="tag" href="/tag/{{ t.tag_name }}" title="3 篇文章">{{ t.tag_name }}</a>
+                {% endfor %}
             </div>
           </div>
         </div>
-
-        <div class="module">
-
         </div>
+
+        <!--<div class="module">
+          <div class="panel panel-primary">
+            <div class="panel-heading">友情链接</div>
+            <div class="panel-body tags">
+
+                <a rel="link" href="http://www.leavesongs.com/tag/ctf" title="3 篇文章"></a>
+
+          </div>
+        </div>
+        </div>-->
+
+
 

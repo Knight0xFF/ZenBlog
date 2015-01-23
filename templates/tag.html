@@ -9,7 +9,7 @@
             <li role="presentation"><a href="/about"><i class="icon-user-md"></i>&nbsp;About</a></li>
           </ul>
         </nav>
-    {% for p in posts.items %}
+    {% for p in posts %}
     <article>
           <div class="title">
             <h3><a href="/article/{{ p.id }}">{{ p.post_title }}</a></h3>
@@ -29,16 +29,7 @@
           <hr class="bs-docs-separator">
     </article>
     {% endfor %}
-      <nav>
-        <ul class="pager">
-            {% if posts.has_next %}
-          <li class="previous"><a href="/page/{{ posts.next_num }}">&larr; Older</a></li>
-            {% endif %}
-            {% if posts.has_prev %}
-          <li class="next"><a href="/page/{{ posts.prev_num }}">Newer &rarr;</a></li>
-            {% endif %}
-        </ul>
-      </nav>
+
         </div><!--9 END-->
         <div class="col-md-3">
             {% include "slider.html" %}

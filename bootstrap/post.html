@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Zend's Blog</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/me.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+    <div class="well">
+      <div class="container">
+        <div class="social">
+          <h1>Zend's Blog</h1>
+          <ul>
+            <li><a href="#" target="_blank"><img src="iconfont-RSS.png"  width="16" height="16" alt="rss" /></a></li>
+            <li><a href="#" target="_blank"><img src="iconfont-youjian.png"  width="20" height="20" alt="email" /></a></li>
+            <li><a href="#" target="_blank"><img src="iconfont-weibo.png"  width="20" height="20" alt="weibo" /></a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <nav>
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href=".'/home.html"><i class="icon-home"></i>&nbsp;Home</a></li>
+            <li role="presentation"><a href="./archives.html"><i class="icon-book"></i>&nbsp;Archives</a></li>
+            <li role="presentation"><a href="./about.html"><i class="icon-user-md"></i>&nbsp;About</a></li>
+          </ul>
+        </nav>
+        <article>
+          <div class="title">
+            <h2><a href="#">这是一套可视化布局系统</a><h2>
+          </div>
+          <ul class="post-meta">
+            <li><i class="icon-reorder"></i>&nbsp;<a href="http://iyanlei.com/tech/">Windows</a></li>
+            <li><i class="icon-time"></i>&nbsp;January 1, 2014</li>
+            <li><i class="icon-eye-open"></i>&nbsp;64</li>
+            <li><a rel="nofollow" href="#"><i class="icon-comments-alt"></i>&nbsp;2</a></li>
+            <li><a rel="nofollow" href="#"><i class="icon-heart-empty"></i>&nbsp;2</a></li>
+            <!--<li><a rel="nofollow" href="#">Read More <i class="icon-double-angle-right"></i></a></li>-->
+          </ul>
+          <p>
+            <hr />
+<h2>原因分析</h2>
+<p>分析 <code>/var/log/auth.log</code> 登陆日志，可以发现很多SSH，FTP服务的登录尝试。其中FTP多为匿名用户的登录尝试。</p>
+<p>SSH服务多为root用户的登录尝试，时间集中于夜晚凌晨，不容易被管理员发现，并且破解方式采用建立连接后尝试一次密码断开再次请求连接。不受配置中MaxAuthTries的限制。</p>
+<h2>解决方案</h2>
+<h3>1 两个简单的设置可以很大程度防止密码被破解。</h3>
+<p>限制root登陆,更改默认端口</p>
+<p><code>Port 23946</code></p>
+<p><code>PermitRootLogin no</code> </p>
+<p>限制root登陆还是很有必要，登陆后直接su为root用户也只是多了两个步骤而已。一般情况下就能防止很多的无脑扫描。</p>
+<p>缺点是无法完全禁止爆破，依然会占用系统和带宽资源。</p>
+<h3>2 使用公钥登陆,禁止密码登陆。这是个一劳永逸的方法。</h3>
+<pre><code>RSAAuthentication yes
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+</code></pre>
+
+<p>按照网上配置，成功后可以防止密码扫描。</p>
+<h3>3 Denyhosts</h3>
+<p>一款python写成的工具，可以根据日志内容找出可疑ip，通过Linux自带的TCP Wrappers来进行访问控制(<code>/etc/hosts.deny</code>)</p>
+<p>使用与配置</p>
+<p>1 正常使用<code>setup.py install</code>安装，默认安装路径为<code>/usr/local/Denyhosts</code></p>
+<p>2 配置与启动文件为</p>
+<pre><code>denyhosts.cfg
+daemon-control
+</code></pre>
+
+<p>denyhosts.cfg关键配置为：</p>
+<pre><code>PURGE_DENY：当一个IP被阻止以后，过多长时间被自动解禁。可选如3m（三分钟）、5h（5小时）、2d（两天）、8w（8周）、1y（一年）；
+PURGE_THRESHOLD：定义了某一IP最多被解封多少次。即某一IP由于暴力破解SSH密码被阻止/解封达到了PURGE_THRESHOLD次，则会被永久禁止；
+BLOCK_SERVICE：需要阻止的服务名；
+DENY_THRESHOLD_INVALID：某一无效用户名（不存在的用户）尝试多少次登录后被阻止；
+DENY_THRESHOLD_VALID：某一有效用户名尝试多少次登陆后被阻止（比如账号正确但密码错误），root除外；
+DENY_THRESHOLD_ROOT：root用户尝试登录多少次后被阻止；
+HOSTNAME_LOOKUP：是否尝试解析源IP的域名；
+DAEMON_PURGE = 5m  ip禁止时间的真正控制，感觉前面的有问题，不起作用
+</code></pre>
+
+<p><code>daemon-control start</code> 启动</p>
+<p><code>/etc/hosts.deny</code>  禁止的ip保存文件，可手动清除。</p>
+          </p>
+      <hr class="bs-docs-separator">
+	  <h1>Comments</h1>
+	  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'zend3'; // required: replace example with your forum shortname 这个地方需要改成你配置的网站名
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+        </article>
+        
+      </div><!--9 END-->
+    
+      <div class="col-md-3">
+
+        <div class="module">
+          <div class="input-group">
+              <input type="text" name=""  id="" placeholder="搜索" class="form-control">
+              <div class="input-group-btn">
+                  <button class="btn btn-primary btn-info">搜索</button>
+              </div>
+          </div>
+        </div>
+
+        <div class="module">
+          <div class="panel panel-success">
+           <div class="panel-heading">
+              <h3 class="panel-title">分类目录</h3>
+           </div>
+            <ul class="list-group">
+              <a href="#" class="list-group-item"><span class="badge">14</span>Linux</a>
+              <a href="#" class="list-group-item"><span class="badge">3</span>Hack</a>
+              <a href="#" class="list-group-item"><span class="badge">5</span>Python</a>
+              <a href="#" class="list-group-item"><span class="badge">12</span>Book</a>
+            </ul>     
+          </div>
+        </div>
+
+        <div class="module">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">热门文章</h3>
+            </div>
+            <ul class="list-group">
+              <a href="#" class="list-group-item">Cras justo odio</a>
+              <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+              <a href="#" class="list-group-item">Morbi leo risus</a>
+              <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+              <a href="#" class="list-group-item">Vestibulum at eros</a>
+            </ul>
+          </div>
+        </div>
+
+        <div class="module">
+          <div class="panel panel-warning">
+            <div class="panel-heading">热门标签</div>
+            <div class="panel-body tags">
+              <a href="#" class="label label-info">身边的故事</a>
+              <a href="#" class="label label-success">谈谈情</a>
+              <a href="#" class="label label-warning">说说爱</a>
+              <a href="#" class="label label-danger">HTML</a>
+              <a href="#" class="label label-default">CSS</a>
+              <a href="#" class="label label-primary">PHP</a>
+              <a href="#" class="label label-danger">JS</a>
+              <a href="#" class="label label-info">nodeJs</a>
+              <a href="#" class="label label-default">Net</a>
+              <a href="#" class="label label-warning">JAVA</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="module">
+                    
+        </div>
+      </div><!--3 END-->
+    </div><!--ROW END-->
+    </div>
+
+  </body>
+</html>

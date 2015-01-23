@@ -3,19 +3,23 @@ __author__ = 'zend'
 from flask import Flask, render_template, request
 from models import Category, Post, Tag, db
 from run import app
+from random import shuffle
 import time
 
 app.config.from_object('config')
 page_title = "Zend's Blog"
-tag_color = ['info', 'success', 'warning', 'danger', 'default', 'primary']
+POSTS_PER_PAGE = 10
 
 
 @app.route('/')
 @app.route('/index')
-def index():
+@app.route("/page/<int:pageid>")
+def index(pageid=1):
     categorys = Category.query.all()
-    tags = Tag.query.all()[:6]
-    posts = Post.query.all()
+    tags = Tag.query.group_by(Tag.tag_name).all()
+    shuffle(tags)
+    tags = tags[:10]
+    posts = Post.query.order_by(Post.post_date.desc()).paginate(pageid, POSTS_PER_PAGE)
     hot_posts = Post.query.order_by(Post.post_view_count.desc()).all()[0:5]
     return render_template("index.html",
                            page_title=page_title,
@@ -28,8 +32,10 @@ def index():
 @app.route('/archives')
 def archives():
     categorys = Category.query.all()
-    tags = Tag.query.all()[:6]
     posts = Post.query.all()
+    tags = Tag.query.group_by(Tag.tag_name).all()
+    shuffle(tags)
+    tags = tags[:10]
     hot_posts = Post.query.order_by(Post.post_view_count.desc()).all()[0:5]
     return render_template("archives.html",
                            page_title=page_title,
@@ -42,7 +48,9 @@ def archives():
 @app.route('/about')
 def about():
     categorys = Category.query.all()
-    tags = Tag.query.all()[:6]
+    tags = Tag.query.group_by(Tag.tag_name).all()
+    shuffle(tags)
+    tags = tags[:10]
     hot_posts = Post.query.order_by(Post.post_view_count.desc()).all()[0:5]
     return render_template("about.html",
                            page_title=page_title,
@@ -51,13 +59,20 @@ def about():
                            tags=tags)
 
 
-@app.route('/category/<category_name>')
-def category(category_name):
-    hot_posts = Post.query.order_by(Post.post_view_count.desc()).all()[0:5]
+@app.route('/search')
+@app.route('/search/page/<int:pageid>')
+def search(pageid=1):
     categorys = Category.query.all()
-    tags = Tag.query.all()[:6]
-    posts = Post.query.filter_by(category_name=category_name)
-    return render_template("index.html",
+    tags = Tag.query.group_by(Tag.tag_name).all()
+    shuffle(tags)
+    tags = tags[:10]
+    hot_posts = Post.query.order_by(Post.post_view_count.desc()).all()[0:5]
+    keywords = request.args.get('keywords', '')
+    searchresult = Post.query.search(keywords)
+
+    posts = searchresult.order_by(Post.post_date.desc()).paginate(pageid, 3)
+
+    return render_template("search.html",
                            page_title=page_title,
                            posts=posts,
                            categorys=categorys,
@@ -65,16 +80,37 @@ def category(category_name):
                            tags=tags)
 
 
+@app.route('/category/<category_name>')
+@app.route('/category/<category_name>/page/<int:pageid>')
+def category(category_name, pageid=1):
+    hot_posts = Post.query.order_by(Post.post_view_count.desc()).all()[0:5]
+    categorys = Category.query.all()
+    tags = Tag.query.group_by(Tag.tag_name).all()
+    shuffle(tags)
+    tags = tags[:10]
+    posts = Post.query.filter_by(category_name=category_name).\
+        order_by(Post.post_date.desc()).paginate(pageid, POSTS_PER_PAGE)
+    return render_template("category.html",
+                           page_title=page_title,
+                           posts=posts,
+                           categorys=categorys,
+                           category_name=category_name,
+                           hot_posts=hot_posts,
+                           tags=tags)
+
+
 @app.route('/tag/<tag_name>')
 def tag(tag_name):
     hot_posts = Post.query.order_by(Post.post_view_count.desc()).all()[0:5]
-    tagss = Tag.query.all()[:6]
     tags = Tag.query.filter_by(tag_name=tag_name).all()
+    tagss = Tag.query.group_by(Tag.tag_name).all()
+    shuffle(tags)
+    tagss = tagss[:10]
     categorys = Category.query.all()
     posts = []
     for i in tags:
         posts.append(Post.query.filter_by(id=i.post_id).first())
-    return render_template("index.html",
+    return render_template("tag.html",
                            page_title=page_title,
                            posts=posts,
                            categorys=categorys,
@@ -86,7 +122,9 @@ def tag(tag_name):
 def article(postid):
     hot_posts = Post.query.order_by(Post.post_view_count.desc()).all()[0:5]
     categorys = Category.query.all()
-    tags = Tag.query.all()[:6]
+    tags = Tag.query.group_by(Tag.tag_name).all()
+    shuffle(tags)
+    tags = tags[:10]
     post = Post.query.filter_by(id=postid).first()
     post.post_view_count += 1
     db.session.add(post)
@@ -119,8 +157,8 @@ def new_post():
         db.session.commit()
 
         for i in post_tag:
-            tag = Tag(post_id=newpost.id, tag_name=i)
-            db.session.add(tag)
+            tags = Tag(post_id=newpost.id, tag_name=i)
+            db.session.add(tags)
             db.session.commit()
 
     return render_template("admin-new-posts.html", categorys=categorys)
