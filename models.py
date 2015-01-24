@@ -13,6 +13,29 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 
+class User(db.Model):
+    __tablename__ = "user"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True)
+    password = db.Column(db.String(120))
+    role = db.Column(db.SmallInteger)
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return unicode(self.id)
+
+    def __repr__(self):
+        return '<User %r>' % (self.nickname)
+
+
 class PostQuery(BaseQuery):
     def get_category_name(self):
         return Category.query.filter_by(id=self.category_id).first()

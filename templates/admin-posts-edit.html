@@ -11,17 +11,17 @@
             {{ message }}
         </div>
     {% endfor %}
-					<h1>New post</h1>
+					<h1>Post Edit</h1>
 				</div>
-				<div class="content"><form id="post-form" role="form" method="post" action="/newpost">
-						<div class="form-group "><input type="text" class="form-control" name="post_title" id="post-title" placeholder="Post Title" value="" required>
+				<div class="content"><form id="post-form" role="form" method="post" action="/post_edit/{{ posts.id }}">
+						<div class="form-group "><input type="text" class="form-control" name="post_title" id="post-title" placeholder="Post Title" value={{ posts.post_title }} required>
 					    </div>
 						<div class="form-group">
-						    <textarea id="post-short" name="post_excerpt" class="form-control" rows="3" placeholder="Short Text"></textarea>
+						    <textarea id="post-short" name="post_excerpt" class="form-control" rows="3" placeholder="Short Text" >{{ posts.post_excerpt }}</textarea>
 					    </div>
-						<div class="form-group "><textarea id="post-full" name="post_content" class="form-control" rows="12" placeholder="Full Text" required></textarea>
+						<div class="form-group "><textarea id="post-full" name="post_content" class="form-control" rows="12" placeholder="Full Text" required>{{ posts.post_content }}</textarea>
 					    </div>
-						<div class="form-group">
+						<!--<div class="form-group">
 						    <label for="post-tags">Tags</label>
 						    <input type="text" name="post_tags" class="form-control" id="post-tags" placeholder="Comma separated" value="">
 					    </div>
@@ -32,7 +32,7 @@
                               <option>{{ c.category_name }}</option>
                                 {% endfor %}
                             </select>
-					    </div>
+					    </div>-->
 						<div class="form-group">
 							<input type="hidden" name="post-preview" id="preview">
 							<input name="_csrf_token" type="hidden" value="TQ57OK">
@@ -49,6 +49,11 @@
 	<div class="container">
 		<p><a data-target="_blank" href="https://github.com/dmaslov/flask-blog">Source code</a> is licensed under the <a data-target="_blank" href="http://choosealicense.com/licenses/mit">MIT</a> license.</p>
 	</div>
+        <div class="github-fork-ribbon-wrapper right-bottom">
+            <div class="github-fork-ribbon">
+                <a data-target="_blank" href="https://github.com/dmaslov/flask-blog">Fork me on GitHub</a>
+            </div>
+        </div>
 </footer>
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 	<script src="static/js/bootstrap.min.js"></script>

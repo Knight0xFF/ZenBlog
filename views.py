@@ -1,14 +1,24 @@
 __author__ = 'zend'
 
-from flask import Flask, render_template, request
-from models import Category, Post, Tag, db
+from flask import Flask, render_template, request, Response, session,  redirect, flash, url_for
+from flask.ext.login import login_user, logout_user, login_required, LoginManager
+from models import Category, Post, Tag, User, db
+from functools import wraps
 from run import app
 from random import shuffle
 import time
 
 app.config.from_object('config')
 page_title = "Zend's Blog"
-POSTS_PER_PAGE = 10
+POSTS_PER_PAGE = 3
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 
 @app.route('/')
@@ -137,7 +147,29 @@ def article(postid):
                            tags=tags)
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if not User.query.filter_by(username=username, password=password):
+            flash('emh, A wrong was happened~~~')
+        else:
+            user = User.query.filter_by(username=username).first()
+            login_user(user)
+            flash('loggin success~~~~')
+            return redirect('/admin')
+    return render_template('login.html')
+
+
+@app.route('/admin')
+@login_required
+def admin():
+    return render_template("admin.html")
+
+
 @app.route('/newpost', methods=['GET', 'POST'])
+@login_required
 def new_post():
     categorys = Category.query.all()
     if request.method == 'POST':
@@ -152,6 +184,13 @@ def new_post():
                        category_id=category.id, category_name=post_category_name)
 
         category.category_post_count += 1
+
+        if request.form.get('post-preview') == '1':
+            post_data = {"title": post_title, "content": post_content}
+            session['post-preview'] = post_data
+            return redirect('/preview')
+        else:
+            session.pop('post-preview', None)
         db.session.add(newpost)
         db.session.add(category)
         db.session.commit()
@@ -162,3 +201,69 @@ def new_post():
             db.session.commit()
 
     return render_template("admin-new-posts.html", categorys=categorys)
+
+
+@app.route('/preview')
+@login_required
+def preview():
+    post = session.get('post-preview')
+    return render_template('admin-posts-preview.html', post=post)
+
+
+@app.route('/posts_list')
+@app.route('/posts_list/page/<int:pageid>')
+@login_required
+def posts_list(pageid=1):
+    posts = Post.query.order_by(Post.post_date.desc()).paginate(pageid, POSTS_PER_PAGE)
+    if not posts.total:
+        pagination = [0]
+    elif posts.total % POSTS_PER_PAGE:
+        pagination = range(1, posts.total / POSTS_PER_PAGE + 2)
+    else:
+        pagination = range(1, posts.total / POSTS_PER_PAGE + 1)
+    return render_template("admin-posts-list.html",
+                           posts=posts,
+                           pageid=pageid,
+                           pagination=pagination)
+
+
+@app.route('/post_edit/<int:post_id>', methods=["GET", "POST"])
+@login_required
+def post_edit(post_id):
+    categorys = Category.query.all()
+    posts = Post.query.filter_by(id=post_id).first()
+    if request.method == "POST":
+        post_title = request.form.get('post_title').strip()
+        post_excerpt = request.form.get('post_excerpt')
+        post_content = request.form.get('post_content')
+        #post_category_name = request.form.get('post_category_name')
+        #category = Category.query.filter_by(category_name=post_category_name).first()
+        posts = Post.query.filter_by(id=post_id).first()
+        posts.post_title = post_title
+        posts.post_excerpt = post_excerpt
+        posts.post_content = post_content
+
+        db.session.add(posts)
+        db.session.commit()
+
+    return render_template("admin-posts-edit.html",
+                           posts=posts,
+                           categorys=categorys)
+
+
+@app.route('/admin_search')
+@login_required
+def admin_search():
+    keywords = request.args.get('keywords', '')
+    searchresult = Post.query.search(keywords)
+    posts = searchresult.order_by(Post.post_date.desc())
+    return render_template("admin-search.html",
+                           posts=posts)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You were logged out')
+    return redirect('/index')

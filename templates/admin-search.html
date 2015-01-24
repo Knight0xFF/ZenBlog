@@ -1,0 +1,51 @@
+{% extends "admin-base.html" %}
+{% block main %}<div class="container"><div class="post">
+		<div class="row">
+			<div class="col-lg-12"><div class="page-header">
+						<h1>Posts</h1>
+					</div>
+					<div class="content"><div class="response">
+		                            </div><a href="/newpost" class="response btn btn-primary">Add new</a>
+						<table class="table table-striped">
+							<tr>
+								<th>Title</th>
+								<th>Post Date</th>
+								<th>Action</th>
+							</tr>
+                            {% for p in posts %}
+                            <tr>
+								<td><a title="Preview" href="/article/{{ p.id }}" data-target="_blank">{{ p.post_title }}</a></td>
+								<td>{{ p.post_date.strftime('%b %d %Y') }}</td>
+								<td><a title="Edit" href="/post_edit/{{ p.id }}" class="icon-edit-sign bigger icon"></a>&nbsp;&nbsp;<a title="Delete" href="#" class="icon-remove-sign bigger icon"></a></td>
+							</tr>
+                            {% endfor %}
+                        </table>
+					</div></div>
+                        </div>
+                    </div>
+
+		</div><footer>
+	<div class="container">
+		<p><a data-target="_blank" href="https://github.com/dmaslov/flask-blog">Source code</a> is licensed under the <a data-target="_blank" href="http://choosealicense.com/licenses/mit">MIT</a> license.</p>
+	</div>
+        <div class="github-fork-ribbon-wrapper right-bottom">
+            <div class="github-fork-ribbon">
+                <a data-target="_blank" href="https://github.com/dmaslov/flask-blog">Fork me on GitHub</a>
+            </div>
+        </div>
+</footer>
+<script src="//codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
+			<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script><script src="/static/js/main.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-45932292-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+{% endblock %}
