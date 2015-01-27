@@ -32,9 +32,6 @@ class User(db.Model):
     def get_id(self):
         return unicode(self.id)
 
-    def __repr__(self):
-        return '<User %r>' % (self.nickname)
-
 
 class PostQuery(BaseQuery):
     def get_category_name(self):
@@ -61,8 +58,7 @@ class Post(db.Model):
     post_excerpt = db.Column(db.Text)
     post_content = db.Column(db.Text)
     post_view_count = db.Column(db.Integer, default=0)
-    post_comment_count = db.Column(db.Integer, default=0)
-    post_love_count = db.Column(db.Integer, default=0)
+    post_status = db.Column(db.Integer, default=1)
 
     def __init__(self, *args, **kwargs):
         super(Post, self).__init__(*args, **kwargs)

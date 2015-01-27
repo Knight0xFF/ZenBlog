@@ -1,39 +1,45 @@
 {% extends "base.html" %}
-{% block main %}<div class="container">
-    <div class="row">
-        <div class="col-md-9">
-            <nav>
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="/"><i class="icon-home"></i>&nbsp;Home</a></li>
-            <li role="presentation"><a href="/archives"><i class="icon-book"></i>&nbsp;Archives</a></li>
-            <li role="presentation"><a href="/about"><i class="icon-user-md"></i>&nbsp;About</a></li>
-          </ul>
-        </nav>
-    {% for p in posts %}
-    <article>
-          <div class="title">
-            <h3><a href="/article/{{ p.id }}">{{ p.post_title }}</a></h3>
-          </div>
+{% block main %}
+<div id="page-content">
 
-          <p>
-                {{ p.post_excerpt |safe}}
-          </p>
-          <ul class="post-meta">
-            <li><i class="icon-reorder"></i>&nbsp;<a href="/category/{{ p.category_name }}">{{ p.category_name }}</a></li>
-            <li><i class="icon-time"></i>&nbsp;{{ p.post_date.strftime('%B %d %Y') }}</li>
-            <li><i class="icon-eye-open"></i>&nbsp;{{ p.post_view_count }}</li>
-            <li><i class="icon-comments-alt"></i>&nbsp;<a href="/article/{{ p.id }}#disqus_thread">Comments</a></li>
-            <!--<li><a rel="nofollow" href="#" data-toggle="modal" data-target="#myModal"><i class="icon-heart"></i>&nbsp;{{ p.post_love_count }}</a></li>-->
-            <!--<li><a rel="nofollow" href="#">Read More <i class="icon-double-angle-right"></i></a></li>-->
-          </ul>
-          <hr class="bs-docs-separator">
-    </article>
+<div class="page-title-inline">
+	<h1>Tags
+</div>
+<div class="cont932">
+	<hr style="margin-top: 0;">
+	<div class="contentarea">
+		<div class="ca-center ca-center20t nobg">
+			<div class="journal-tags" id="teaminfo">
+
+    {% for t in tags %}
+        <a class="tag-cont" href="/tag#{{ t.tag_name }}">
+			<div class="tag-l"></div>
+			<div class="tag-c">{{ t.tag_name }}</div>
+			<div class="tag-r"></div>
+		</a>
     {% endfor %}
+    </div>
+			<div class="clearboth"></div>
+			<hr>
 
-        </div><!--9 END-->
-        <div class="col-md-3">
-            {% include "slider.html" %}
-        </div><!--3 END-->
-    </div><!--ROW END-->
+			<div>
+            {% for t in tag_has_posts.keys() %}
+                <div  class="team-member">
+			        <h2 id="{{ t }}">{{ t }}</h2>
+               <ul>
+              {% for v in tag_has_posts[t] %}
+                  {% for p in v %}
+                        <li><a href="/article/{{ p.id }}">{{ p.post_title }}</a></li>
+                      {% endfor %}
+                  {% endfor %}
+			  </ul>
+                    </div>
+            {% endfor %}
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
 
 {% endblock %}

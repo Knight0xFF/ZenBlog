@@ -1,59 +1,170 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ page_title }}</title>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
 
-    <!-- Bootstrap -->
-    <link href="/static/css/bootstrap.css" rel="stylesheet">
-    <link href="/static/css/style.css" rel="stylesheet">
-    <link href="/static/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen" />
-    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/me.js"></script>
+	<title>Zend's Blog</title>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <script type="text/javascript">
-      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-      var disqus_shortname = 'zend3'; // replace example with your forum shortname
-      /* * * DON'T EDIT BELOW THIS LINE * * */
-      (function () {
-          var s = document.createElement('script'); s.async = true;
-          s.type = 'text/javascript';
-          s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-          (document.getElementsByTagName('HEAD')[0] ||
-          document.getElementsByTagName('BODY')[0]).appendChild(s);
-      }());</script>
-  </head>
 
-  <body>
-  <p id="back-to-top"><a href="#top"><span></span>回到顶部</a></p>
-    <div class="well">
-      <div class="container">
-        <div class="social">
-          <h1>Zend's Blog</h1>
-          <ul>
-            <li><a href="#" target="_blank"><img src="/static/images/iconfont-RSS.png"  width="16" height="16" alt="rss" /></a></li>
-            <li><a href="Mailto:i@z3lion.com" target="_blank"><img src="/static/images/iconfont-youjian.png"  width="20" height="20" alt="email" /></a></li>
-            <li><a href="http://www.weibo.com/u/1745382967" target="_blank"><img src="/static/images/iconfont-weibo.png"  width="20" height="20" alt="weibo" /></a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-        {% block main %}{% endblock %}
-    </div>
+	<link rel="stylesheet" href="/static/css/jquery.fancybox.css">
+	<link rel="stylesheet" href="/static/css/main.css">
+	<link rel="stylesheet" href="/static/css/pages/journal.css">
+	<link rel="stylesheet" href="/static/css/team.css">
+	<link rel="stylesheet" href="/static/css/static.css">
+	<link rel="stylesheet" href="/static/css/errors.css">
+	<link rel="stylesheet" href="/static/google-code-prettify/prettify.css">
 
-    <div class="site-generator-wrapper">
-	<div class="site-generator">Copyright @ 2015 All rights reserved. &nbsp;&nbsp;&nbsp;&nbsp; Powered By <a href="http://flask.pocoo.org/">Flask</a></div>
-        </div>
- </body>
+	<link rel="shortcut icon" href="/static/img/favicon.ico">
+
+	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+
+	<script type="text/javascript" src="/static/js/auto_loadmore.js"></script>
+
+	<script type="text/javascript" src="/static/google-code-prettify/prettify.js"></script>
+
+	<script type="text/javascript">
+	  $(function(){
+		$("pre code").addClass("prettyprint linenums");
+		prettyPrint();
+	  });
+	</script>
+
+<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+
+</head>
+<body>
+	<noscript>
+		&amp;lt;div id="no-js"&amp;gt;Please enable JavaScript in your browser to experience / fully&amp;lt;/div&amp;gt;
+	</noscript>
+    <div id="page-container">
+		<div>
+			<nav>
+	<div id="nav-l">
+	</div>
+	<div id="nav-c">
+		<ul id="nav-list" style="width: 700px;">
+			<li id="home"><a href="/">Home</a></li>
+
+
+
+					<li id = "Home"><a href="/index">Home</a></li>
+
+
+
+					<li id = "Archive"><a href="/archives">Archive</a></li>
+
+
+
+					<li id = "Categories"><a href="/category">Categories</a></li>
+
+
+					<li id = "Tags"><a href="/tag">Tags</a></li>
+
+                    <li id = "About Me"><a href="/about">About Me</a></li>
+
+		</ul>
+		<form id="nav-search" action="/search" method="get">
+			<div id="search-right-pix">
+				<div id="search-left-pix">
+					<div id="search-center-pix">
+						<div id="search-icon-pix"></div>
+						<input name="keywords" type="text" placeholder="Search">
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+	</div>
+	<div id="nav-r">
+	</div>
+</nav>
+
+{% block main %}  {% endblock %}
+
+<div class="clearboth pagebottom"></div>
+		</div>
+	</div>
+	<footer>
+	<div class="footer-940">
+		<div class="footer-general-info">
+			Copyright © 2015 .<br><br>
+            Powered by <a href = "http://flask.pocoo.org/">Flask</a><br>
+            Design by <a href = "https://github.com/Simpleyyt">Simpleyyt</a><br>
+			<a href = "/about">About Me</a><br>
+		</div>
+		<div class="footer-col-cont">
+			<div class="footer-nav-col">
+				<h4><a>Categories</a></h4>
+				<ul>
+
+        {% for c in categorys %}
+    	<li><a href="/category#{{ c.category_name }}">
+    		{{ c.category_name }} <span>1</span>
+    	</a></li>
+        {% endfor %}
+				</ul>
+			</div>
+			<div class="footer-nav-col">
+				<h4><a>Pages</a></h4>
+				<ul>
+
+
+
+      	<li><a href="/index">Home</a></li>
+
+
+      	<li><a href="/archives">Archive</a></li>
+
+
+      	<li><a href="/category">Categories</a></li>
+
+
+      	<li><a href="/tag">Tags</a></li>
+
+        <li><a href="/about">About Me</a></li>
+
+				</ul>
+			</div>
+			<div class="footer-nav-col">
+				<h4><a>Feed</a></h4>
+				<ul>
+					<li><a href="#">Atom Feed</a></li>
+					<li><a href="#">RSS Feed</a></li>
+				</ul>
+			</div>
+			<div class="footer-nav-col">
+				<h4><a>Links</a></h4>
+				<ul>
+
+					<li><a href = "http://z3lion.com/">Zend's Blog</a></li>
+
+				</ul>
+			</div>
+			<div class="footer-nav-col">
+				<h4><a href = "/about">About Me</a></h4>
+				<ul>
+
+					<li><a href = "mailto:Me@z3lion.com" target="_blank">e-mail</a></li>
+
+					<li><a href = "https://github.com/ZenQ3" target="_blank">Github</a></li>
+
+					<li><a href = "http://www.weibo.com/u/1745382967" target="_blank">WeiBo</a></li>
+
+					<li><a href = "#">Google+</a></li>
+
+				</ul>
+			</div>
+			<div class="clearboth"></div>
+		</div>
+		<div class="clearboth"></div>
+	</div>
+	<div class="clearboth"></div>
+</footer>
+
+
+</body>
 </html>

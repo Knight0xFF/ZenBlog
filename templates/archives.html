@@ -1,52 +1,39 @@
 {% extends "base.html" %}
-{% block main %}<div class="container">
-    <div class="row">
-        <div class="col-md-9">
-            <nav>
-          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation"><a href="/"><i class="icon-home"></i>&nbsp;Home</a></li>
-            <li role="presentation" class="active"><a href="archives"><i class="icon-book"></i>&nbsp;Archives</a></li>
-            <li role="presentation"><a href="/about"><i class="icon-user-md"></i>&nbsp;About</a></li>
-          </ul>
-        </nav>
-        <div id="blog-archives">
+{% block main %}
+<div id="page-content">
 
-            <h2>2015</h2>
-            {% for p in posts %}
-                {% if p.post_date.strftime('%Y') == '2015' %}
-                <article>
-                        <h1><a href="/article/{{ p.id }}">{{ p.post_title }}</a></h1>
-                        <time datetime="{{ p.post_date }}" ><span class='month'>{{ p.post_date.strftime('%b') }}</span>
-                            <span class='day'>{{ p.post_date.strftime('%d') }}</span> <span class='year'>{{ p.post_date.strftime('%Y') }}</span></time>
+<div class="page-title-inline">
+	<h1>Archive
+</div>
+<div class="cont932">
+	<hr style="margin-top: 0;">
+	<div class="contentarea">
+		<div class="ca-center ca-center20t nobg">
 
-                        <footer>
-                          <span class="categories">posted in <a class='category' href="/category/{{ p.category_name }}">{{ p.category_name }}</a></span>
-                        </footer>
-                </article>
-                {% endif %}
-            {% endfor %}
-            <h2>2014</h2>
-                {% for p in posts %}
-                    {% if p.post_date.strftime('%Y') == '2014' %}
-                <article>
-                        <h1><a href="/article/{{ p.id }}">{{ p.post_title }}</a></h1>
-                        <time datetime="{{ p.post_date }}" pubdate><span class='month'>{{ p.post_date.strftime('%b') }}</span>
-                            <span class='day'>{{ p.post_date.strftime('%d') }}</span> <span class='year'>{{ p.post_date.strftime('%Y') }}</span></time>
+            {% for y in archives %}
+			  <div  class="team-member">
 
-                        <footer>
-                          <span class="categories">posted in <a class='category' href="/category/{{ p.category_name }}">{{ p.category_name }}</a></span>
-                        </footer>
-                    </article>
+                  <h2>{{ y }}</h2>
+                {% for m in archives[y] %}
+                    {% if archives[y][m] %}
+                  <h3>{{ m }}</h3>
+			  <ul>
+                {% for p in archives[y][m] %}
+			    <li><span>{{ p.post_date.strftime('%b %d %Y') }}</span> &raquo; <a href="/article/{{ p.id }}">{{ p.post_title }}</a></li>
+
+				  </ul>
+                {% endfor %}
                     {% endif %}
+                {% endfor %}
+
+              </div>
             {% endfor %}
-        </div>
-        <hr >
 
+</div>
+<div class="clearboth"></div>
+</div>
+</div>
+</div>
 
-        </div><!--9 END-->
-        <div class="col-md-3">
-            {% include "slider.html" %}
-        </div><!--3 END-->
-    </div><!--ROW END-->
 
 {% endblock %}
