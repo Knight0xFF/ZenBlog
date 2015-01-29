@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block main %}<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <nav>
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="/"><i class="icon-home"></i>&nbsp;Home</a></li>
+            <li role="presentation"><a href="/archives"><i class="icon-book"></i>&nbsp;Archives</a></li>
+            <li role="presentation"><a href="/about"><i class="icon-user-md"></i>&nbsp;About</a></li>
+          </ul>
+        </nav>
+    {% for p in posts.items %}
+    <article>
+          <div class="title">
+            <h3><a href="/article/{{ p.id }}">{{ p.post_title }}</a></h3>
+          </div>
+
+          <p>
+                {{ p.post_excerpt |safe}}
+          </p>
+          <ul class="post-meta">
+            <li><i class="icon-reorder"></i>&nbsp;<a href="/category/{{ p.category_name }}">{{ p.category_name }}</a></li>
+            <li><i class="icon-time"></i>&nbsp;{{ p.post_date.strftime('%B %d %Y') }}</li>
+            <li><i class="icon-eye-open"></i>&nbsp;{{ p.post_view_count }}</li>
+            <li><i class="icon-comments-alt"></i>&nbsp;<a href="/article/{{ p.id }}" ><span class="ds-thread-count" data-thread-key="{{ p.id }}" data-count-type="comments"></span></a></li>
+            <!--<li><a rel="nofollow" href="#">Read More <i class="icon-double-angle-right"></i></a></li>-->
+          </ul>
+          <hr class="bs-docs-separator">
+    </article>
+    {% endfor %}
+      <nav>
+        <ul class="pager">
+            {% if posts.has_next %}
+          <li class="previous"><a href="/page/{{ posts.next_num }}">&larr; Older</a></li>
+            {% endif %}
+            {% if posts.has_prev %}
+          <li class="next"><a href="/page/{{ posts.prev_num }}">Newer &rarr;</a></li>
+            {% endif %}
+        </ul>
+      </nav>
+        </div><!--9 END-->
+        <div class="col-md-3">
+            {% include "slider.html" %}
+        </div><!--3 END-->
+    </div><!--ROW END-->
+
+{% endblock %}

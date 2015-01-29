@@ -1,0 +1,65 @@
+<div class="module" xmlns="http://www.w3.org/1999/html">
+    <form id="searchform" action="/search" method="get">
+          <div class="input-group">
+
+              <input type="text" name="keywords"  id="" placeholder="搜索" class="form-control">
+              <div class="input-group-btn">
+                  <button class="btn btn-primary btn-info" type="submit">搜索</button>
+              </div>
+
+          </div>
+        </form>
+        </div>
+
+        <div class="module">
+          <div class="panel panel-success">
+           <div class="panel-heading">
+              <h3 class="panel-title">分类目录</h3>
+           </div>
+            <ul class="list-group">
+                {% for c in categorys %}
+                     <a href="/category/{{ c.category_name }}" class="list-group-item"><span class="badge">{{ c.category_post_count }}</span>{{ c.category_name }}</a>
+                {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <div class="module">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">推荐文章</h3>
+            </div>
+            <ul class="list-group" >
+                {% for p in hot_posts %}
+              <a href="/article/{{ p.id }}" class="list-group-item"><div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.post_title }}</div></a>
+                {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <div class="module">
+          <div class="panel panel-danger">
+            <div class="panel-heading">随机标签</div>
+            <div class="panel-body tags">
+            <div class="tag-cloud">
+                {% for t in tags %}
+                <a rel="tag" href="/tag/{{ t.tag_name }}" title="3 篇文章">{{ t.tag_name }}</a>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <!--<div class="module">
+          <div class="panel panel-primary">
+            <div class="panel-heading">友情链接</div>
+            <div class="panel-body tags">
+
+                <a rel="link" href="http://www.leavesongs.com/tag/ctf" title="3 篇文章"></a>
+
+          </div>
+        </div>
+        </div>-->
+
+
+

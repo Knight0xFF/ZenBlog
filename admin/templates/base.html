@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }}</title>
+
+    <!-- Bootstrap -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico" media="screen" />
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/me.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- 多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zend"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说js加载结束，一个页面只需要加载一次 -->
+  </head>
+
+  <body>
+  <p id="back-to-top"><a href="#top"><span></span>回到顶部</a></p>
+    <div class="well">
+      <div class="container">
+        <div class="social">
+          <h1>Zend's Blog</h1>
+          <ul>
+            <li><a href="#" target="_blank"><img src="/static/images/iconfont-RSS.png"  width="16" height="16" alt="rss" /></a></li>
+            <li><a href="Mailto:i@z3lion.com" target="_blank"><img src="/static/images/iconfont-youjian.png"  width="20" height="20" alt="email" /></a></li>
+            <li><a href="http://www.weibo.com/u/1745382967" target="_blank"><img src="/static/images/iconfont-weibo.png"  width="20" height="20" alt="weibo" /></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+        {% block main %}{% endblock %}
+    </div>
+
+    <div class="site-generator-wrapper">
+	<div class="site-generator">Copyright @ 2015 All rights reserved. &nbsp;&nbsp;&nbsp;&nbsp; Powered By <a href="http://flask.pocoo.org/">Flask</a> And <a href="http://getbootstrap.com/">Bootstrap</a></div>
+        </div>
+ </body>
+</html>
