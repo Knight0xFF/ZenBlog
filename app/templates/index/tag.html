@@ -1,0 +1,45 @@
+{% extends "index/base.html" %}
+{% block main %}
+<div id="page-content">
+
+<div class="page-title-inline">
+	<h1>Tags
+</div>
+<div class="cont932">
+	<hr style="margin-top: 0;">
+	<div class="contentarea">
+		<div class="ca-center ca-center20t nobg">
+			<div class="journal-tags" id="teaminfo">
+
+    {% for t in tags %}
+        <a class="tag-cont" href="/tag#{{ t.tag_name }}">
+			<div class="tag-l"></div>
+			<div class="tag-c">{{ t.tag_name }}</div>
+			<div class="tag-r"></div>
+		</a>
+    {% endfor %}
+    </div>
+			<div class="clearboth"></div>
+			<hr>
+
+			<div>
+            {% for t in tag_has_posts.keys() %}
+                <div  class="team-member">
+			        <h2 id="{{ t }}">{{ t }}</h2>
+               <ul>
+              {% for v in tag_has_posts[t] %}
+                  {% for p in v %}
+                        <li><a href="/article/{{ p.id }}">{{ p.post_title }}</a></li>
+                      {% endfor %}
+                  {% endfor %}
+			  </ul>
+                    </div>
+            {% endfor %}
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock %}

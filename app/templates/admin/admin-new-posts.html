@@ -1,0 +1,65 @@
+{% extends "admin/admin-base.html" %}
+{% block main %}<div class="container">
+
+	<div class="post clearfix">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="page-header">
+					<h1>New post</h1>
+				</div>
+				<div class="content"><form id="post-form" role="form" method="post" action="{{ url_for('admin.new_post') }}">
+						<div class="form-group "><input type="text" class="form-control" name="post_title" id="post-title" placeholder="Post Title" value="" required>
+					    </div>
+						<div class="form-group">
+						    <textarea id="post-short" name="post_excerpt" class="form-control" rows="3" placeholder="Short Text"></textarea>
+					    </div>
+						<div class="form-group "><textarea id="post-full" name="post_content" class="form-control" rows="12" placeholder="Full Text" required></textarea>
+					    </div>
+						<div class="form-group">
+						    <label for="post-tags">Tags</label>
+						    <input type="text" name="post_tags" class="form-control" id="post-tags" placeholder="Comma separated" value="">
+					    </div>
+                        <div class="form-group ">
+                            <label for="post-tags">选择分类目录</label>
+                            <select name="post_category_name" class="form-control">
+                                {% for c in categorys %}
+                              <option>{{ c.category_name }}</option>
+                                {% endfor %}
+                            </select>
+					    </div>
+						<div class="form-group">
+							<input type="hidden" name="post-preview" id="preview">
+							<input name="_csrf_token" type="hidden" value="TQ57OK">
+						    <input id="post-submit" type="submit" class="btn btn-primary" value="Submit">
+							<input id="post-preview" type="submit" class="btn" value="Preview">
+					    </div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+			</div>
+		</div><footer>
+	<div class="container">
+		<p><a data-target="_blank" href="https://github.com/dmaslov/flask-blog">Source code</a> is licensed under the <a data-target="_blank" href="http://choosealicense.com/licenses/mit">MIT</a> license.</p>
+	</div>
+</footer>
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script src="static/js/bootstrap.min.js"></script>
+	<script src="static/js/a-tools.js"></script>
+	<script src="static/js/showdown.js"></script>
+	<script src="static/js/mdmagick.js"></script>
+	<script src="static/js/main.js"></script><script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-45932292-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+{% endblock %}

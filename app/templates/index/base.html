@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="keywords" content="{{ page_info.keywords }}"/>
+    <meta name="description" content="{{ page_info.description }}"/>
+
+	<title>{{ page_info.title }}</title>
+
+	<link rel="stylesheet" href="{{ url_for('.static', filename='css/jquery.fancybox.css') }}">
+	<link rel="stylesheet" href="{{ url_for('.static', filename='css/main.css') }}">
+	<link rel="stylesheet" href="{{ url_for('.static', filename='css/pages/journal.css') }}">
+	<link rel="stylesheet" href="{{ url_for('.static', filename='css/team.css') }}">
+	<link rel="stylesheet" href="{{ url_for('.static', filename='css/index.css') }}">
+	<link rel="stylesheet" href="{{ url_for('.static', filename='css/errors.css') }}">
+	<link rel="stylesheet" href="{{ url_for('.static', filename='google-code-prettify/prettify.css') }}">
+
+	<link rel="shortcut icon" href="{{ url_for('.static', filename='img/favicon.ico') }}">
+
+	<script type="text/javascript" src="{{ url_for('.static', filename='js/jquery.min.js') }}"></script>
+
+	<script type="text/javascript" src="{{ url_for('.static', filename='js/auto_loadmore.js') }}"></script>
+
+	<script type="text/javascript" src="{{ url_for('.static', filename='google-code-prettify/prettify.js') }}"></script>
+
+	<script type="text/javascript">
+	  $(function(){
+		$("pre code").addClass("prettyprint linenums");
+		prettyPrint();
+	  });
+	</script>
+
+<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+
+</head>
+<body>
+	<noscript>
+		&amp;lt;div id="no-js"&amp;gt;Please enable JavaScript in your browser to experience / fully&amp;lt;/div&amp;gt;
+	</noscript>
+    <div id="page-container">
+		<div>
+			<nav>
+	<div id="nav-l">
+	</div>
+	<div id="nav-c">
+		<ul id="nav-list" style="width: 700px;">
+			<li id="home"><a href="/">Home</a></li>
+
+
+
+					<li id = "Home"><a href="/index">Home</a></li>
+
+
+
+					<li id = "Archive"><a href="/archives">Archive</a></li>
+
+
+
+					<li id = "Categories"><a href="/category">Categories</a></li>
+
+
+					<li id = "Tags"><a href="/tag">Tags</a></li>
+
+                    <li id = "About Me"><a href="/about">About Me</a></li>
+
+		</ul>
+		<form id="nav-search" action="/search" method="get">
+			<div id="search-right-pix">
+				<div id="search-left-pix">
+					<div id="search-center-pix">
+						<div id="search-icon-pix"></div>
+						<input name="keywords" type="text" placeholder="Search">
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+	</div>
+	<div id="nav-r">
+	</div>
+</nav>
+
+{% block main %}  {% endblock %}
+
+<div class="clearboth pagebottom"></div>
+		</div>
+	</div>
+	<footer>
+	<div class="footer-940">
+		<div class="footer-general-info">
+			Copyright © 2015 .<br><br>
+            Powered by <a href = "http://flask.pocoo.org/">Flask</a><br>
+            Design by <a href = "https://github.com/Simpleyyt">Simpleyyt</a><br>
+			<a href = "/about">About Me</a><br>
+		</div>
+		<div class="footer-col-cont">
+			<div class="footer-nav-col">
+				<h4><a>Categories</a></h4>
+				<ul>
+
+        {% for c in categorys %}
+    	<li><a href="/category#{{ c.category_name }}">
+    		{{ c.category_name }} <span>1</span>
+    	</a></li>
+        {% endfor %}
+				</ul>
+			</div>
+			<div class="footer-nav-col">
+				<h4><a>Pages</a></h4>
+				<ul>
+
+
+
+      	<li><a href="/index">Home</a></li>
+
+
+      	<li><a href="/archives">Archive</a></li>
+
+
+      	<li><a href="/category">Categories</a></li>
+
+
+      	<li><a href="/tag">Tags</a></li>
+
+        <li><a href="/about">About Me</a></li>
+
+				</ul>
+			</div>
+			<div class="footer-nav-col">
+				<h4><a>Feed</a></h4>
+				<ul>
+					<li><a href="#">Atom Feed</a></li>
+					<li><a href="#">RSS Feed</a></li>
+				</ul>
+			</div>
+			<div class="footer-nav-col">
+				<h4><a>Links</a></h4>
+				<ul>
+
+					<li><a href = "http://z3lion.com/">Zend's Blog</a></li>
+
+				</ul>
+			</div>
+			<div class="footer-nav-col">
+				<h4><a href = "/about">About Me</a></h4>
+				<ul>
+
+					<li><a href = "mailto:Me@z3lion.com" target="_blank">e-mail</a></li>
+
+					<li><a href = "https://github.com/ZenQ3" target="_blank">Github</a></li>
+
+					<li><a href = "http://www.weibo.com/u/1745382967" target="_blank">WeiBo</a></li>
+
+					<li><a href = "#">Google+</a></li>
+
+				</ul>
+			</div>
+			<div class="clearboth"></div>
+		</div>
+		<div class="clearboth"></div>
+	</div>
+	<div class="clearboth"></div>
+</footer>
+
+
+</body>
+</html>
